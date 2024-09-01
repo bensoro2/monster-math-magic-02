@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -7,9 +7,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const MonsterDamageCalculator = () => {
-  const playerStats = {
+  const [playerStats, setPlayerStats] = useState({
     physicalDamage: {
       woodChopping: 3.52,
       rockBreaking: 3.52,
@@ -23,7 +25,7 @@ const MonsterDamageCalculator = () => {
       chaos: 53.14
     },
     skillDamage: 4
-  };
+  });
 
   const monsters = [
     { name: "Jello-Bello Spirit", type: "Smashing", hp: 56, resistances: { physical: 50, fire: 25, cold: 40, lightning: 40, chaos: 0 } },
@@ -76,9 +78,76 @@ const MonsterDamageCalculator = () => {
     };
   };
 
+  const handlePhysicalDamageChange = (type, value) => {
+    setPlayerStats(prevStats => ({
+      ...prevStats,
+      physicalDamage: {
+        ...prevStats.physicalDamage,
+        [type]: parseFloat(value) || 0
+      }
+    }));
+  };
+
+  const handleElementDamageChange = (value) => {
+    setPlayerStats(prevStats => ({
+      ...prevStats,
+      elementDamage: {
+        ...prevStats.elementDamage,
+        chaos: parseFloat(value) || 0
+      }
+    }));
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Monster Damage Calculator</h2>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <Label htmlFor="woodChopping">Wood Chopping Damage</Label>
+          <Input
+            id="woodChopping"
+            type="number"
+            value={playerStats.physicalDamage.woodChopping}
+            onChange={(e) => handlePhysicalDamageChange('woodChopping', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="rockBreaking">Rock Breaking Damage</Label>
+          <Input
+            id="rockBreaking"
+            type="number"
+            value={playerStats.physicalDamage.rockBreaking}
+            onChange={(e) => handlePhysicalDamageChange('rockBreaking', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="mineralMining">Mineral Mining Damage</Label>
+          <Input
+            id="mineralMining"
+            type="number"
+            value={playerStats.physicalDamage.mineralMining}
+            onChange={(e) => handlePhysicalDamageChange('mineralMining', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="smashing">Smashing Damage</Label>
+          <Input
+            id="smashing"
+            type="number"
+            value={playerStats.physicalDamage.smashing}
+            onChange={(e) => handlePhysicalDamageChange('smashing', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="chaosDamage">Chaos Damage</Label>
+          <Input
+            id="chaosDamage"
+            type="number"
+            value={playerStats.elementDamage.chaos}
+            onChange={(e) => handleElementDamageChange(e.target.value)}
+          />
+        </div>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
