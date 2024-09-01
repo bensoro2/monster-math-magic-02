@@ -61,14 +61,19 @@ const MonsterDamageCalculator = () => {
     }
 
     const physicalDamageAfterResistance = physicalDamage * (1 - monster.resistances.physical / 100);
-    const elementDamageAfterResistance = playerStats.elementDamage.chaos * (1 - monster.resistances.chaos / 100);
-    const totalDamage = physicalDamageAfterResistance + elementDamageAfterResistance;
+    const fireDamageAfterResistance = playerStats.elementDamage.fire * (1 - monster.resistances.fire / 100);
+    const coldDamageAfterResistance = playerStats.elementDamage.cold * (1 - monster.resistances.cold / 100);
+    const lightningDamageAfterResistance = playerStats.elementDamage.lightning * (1 - monster.resistances.lightning / 100);
+    const chaosDamageAfterResistance = playerStats.elementDamage.chaos * (1 - monster.resistances.chaos / 100);
+    
+    const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
+    const totalDamage = physicalDamageAfterResistance + totalElementalDamage;
     const reflectDamage = totalDamage * 0.04; // 4% reflect damage
     const hitsToKill = Math.ceil(monster.hp / totalDamage);
 
     return {
       physical: physicalDamageAfterResistance.toFixed(2),
-      element: elementDamageAfterResistance.toFixed(2),
+      element: totalElementalDamage.toFixed(2),
       damage: totalDamage.toFixed(2),
       reflect: reflectDamage.toFixed(2),
       totalDamage: (totalDamage + reflectDamage).toFixed(2),
@@ -88,12 +93,12 @@ const MonsterDamageCalculator = () => {
     }));
   };
 
-  const handleElementDamageChange = (value) => {
+  const handleElementDamageChange = (type, value) => {
     setPlayerStats(prevStats => ({
       ...prevStats,
       elementDamage: {
         ...prevStats.elementDamage,
-        chaos: parseFloat(value) || 0
+        [type]: parseFloat(value) || 0
       }
     }));
   };
@@ -139,12 +144,39 @@ const MonsterDamageCalculator = () => {
           />
         </div>
         <div>
+          <Label htmlFor="fireDamage">Fire Damage</Label>
+          <Input
+            id="fireDamage"
+            type="number"
+            value={playerStats.elementDamage.fire}
+            onChange={(e) => handleElementDamageChange('fire', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="coldDamage">Cold Damage</Label>
+          <Input
+            id="coldDamage"
+            type="number"
+            value={playerStats.elementDamage.cold}
+            onChange={(e) => handleElementDamageChange('cold', e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="lightningDamage">Lightning Damage</Label>
+          <Input
+            id="lightningDamage"
+            type="number"
+            value={playerStats.elementDamage.lightning}
+            onChange={(e) => handleElementDamageChange('lightning', e.target.value)}
+          />
+        </div>
+        <div>
           <Label htmlFor="chaosDamage">Chaos Damage</Label>
           <Input
             id="chaosDamage"
             type="number"
             value={playerStats.elementDamage.chaos}
-            onChange={(e) => handleElementDamageChange(e.target.value)}
+            onChange={(e) => handleElementDamageChange('chaos', e.target.value)}
           />
         </div>
       </div>
