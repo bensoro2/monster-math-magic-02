@@ -1,5 +1,12 @@
 import React from 'react';
-import { Table } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const MonsterDamageCalculator = () => {
   const playerStats = {
@@ -73,41 +80,41 @@ const MonsterDamageCalculator = () => {
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Monster Damage Calculator</h2>
       <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.Head>Monster</Table.Head>
-            <Table.Head>Type</Table.Head>
-            <Table.Head>HP</Table.Head>
-            <Table.Head>Physical</Table.Head>
-            <Table.Head>Element</Table.Head>
-            <Table.Head>Damage</Table.Head>
-            <Table.Head>Reflect</Table.Head>
-            <Table.Head>Total Damage</Table.Head>
-            <Table.Head>Hits to Kill</Table.Head>
-            <Table.Head>HP Remaining</Table.Head>
-            <Table.Head>Last Hit</Table.Head>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Monster</TableHead>
+            <TableHead>Type</TableHead>
+            <TableHead>HP</TableHead>
+            <TableHead>Physical</TableHead>
+            <TableHead>Element</TableHead>
+            <TableHead>Damage</TableHead>
+            <TableHead>Reflect</TableHead>
+            <TableHead>Total Damage</TableHead>
+            <TableHead>Hits to Kill</TableHead>
+            <TableHead>HP Remaining</TableHead>
+            <TableHead>Last Hit</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {monsters.map((monster) => {
             const damageStats = calculateDamage(monster);
             return (
-              <Table.Row key={monster.name}>
-                <Table.Cell>{monster.name}</Table.Cell>
-                <Table.Cell>{monster.type}</Table.Cell>
-                <Table.Cell>{monster.hp}</Table.Cell>
-                <Table.Cell>{damageStats.physical}</Table.Cell>
-                <Table.Cell>{damageStats.element}</Table.Cell>
-                <Table.Cell>{damageStats.damage}</Table.Cell>
-                <Table.Cell>{damageStats.reflect}</Table.Cell>
-                <Table.Cell>{damageStats.totalDamage}</Table.Cell>
-                <Table.Cell>{damageStats.hitsToKill}</Table.Cell>
-                <Table.Cell>{damageStats.hpRemaining}</Table.Cell>
-                <Table.Cell>{damageStats.lastHitDamage}</Table.Cell>
-              </Table.Row>
+              <TableRow key={monster.name}>
+                <TableCell>{monster.name}</TableCell>
+                <TableCell>{monster.type}</TableCell>
+                <TableCell>{monster.hp}</TableCell>
+                <TableCell>{damageStats.physical}</TableCell>
+                <TableCell>{damageStats.element}</TableCell>
+                <TableCell>{damageStats.damage}</TableCell>
+                <TableCell>{damageStats.reflect}</TableCell>
+                <TableCell>{damageStats.totalDamage}</TableCell>
+                <TableCell>{damageStats.hitsToKill}</TableCell>
+                <TableCell>{damageStats.hpRemaining}</TableCell>
+                <TableCell>{damageStats.lastHitDamage}</TableCell>
+              </TableRow>
             );
           })}
-        </Table.Body>
+        </TableBody>
       </Table>
     </div>
   );
