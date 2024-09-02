@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const MonsterDamageCalculator = () => {
   const [playerStats, setPlayerStats] = useState({
@@ -26,6 +27,8 @@ const MonsterDamageCalculator = () => {
     },
     skillDamage: 4
   });
+
+  const [checkedMonsters, setCheckedMonsters] = useState({});
 
   const monsters = [
     { name: "Rat", type: "Smashing", hp: 35, resistances: { physical: 0, fire: 20, cold: 50, lightning: 20, chaos: 0 } },
@@ -147,6 +150,13 @@ const MonsterDamageCalculator = () => {
     }));
   };
 
+  const handleMonsterCheck = (monsterName) => {
+    setCheckedMonsters(prev => ({
+      ...prev,
+      [monsterName]: !prev[monsterName]
+    }));
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Monster Damage Calculator</h2>
@@ -245,7 +255,16 @@ const MonsterDamageCalculator = () => {
             const damageStats = calculateDamage(monster);
             return (
               <TableRow key={monster.name}>
-                <TableCell>{monster.name}</TableCell>
+                <TableCell>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id={`check-${monster.name}`}
+                      checked={checkedMonsters[monster.name] || false}
+                      onCheckedChange={() => handleMonsterCheck(monster.name)}
+                    />
+                    <label htmlFor={`check-${monster.name}`}>{monster.name}</label>
+                  </div>
+                </TableCell>
                 <TableCell>{monster.type}</TableCell>
                 <TableCell>{monster.hp}</TableCell>
                 <TableCell>{damageStats.physical}</TableCell>
