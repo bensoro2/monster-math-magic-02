@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
 const MonsterDamageCalculator = () => {
   const [playerStats, setPlayerStats] = useState({
@@ -29,6 +30,7 @@ const MonsterDamageCalculator = () => {
   });
 
   const [checkedMonsters, setCheckedMonsters] = useState({});
+  const [showCheckedOnly, setShowCheckedOnly] = useState(false);
 
   const monsters = [
     { name: "Rat", type: "Smashing", hp: 35, resistances: { physical: 0, fire: 20, cold: 50, lightning: 20, chaos: 0 } },
@@ -157,6 +159,10 @@ const MonsterDamageCalculator = () => {
     }));
   };
 
+  const toggleShowCheckedOnly = () => {
+    setShowCheckedOnly(!showCheckedOnly);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Monster Damage Calculator</h2>
@@ -234,6 +240,11 @@ const MonsterDamageCalculator = () => {
           />
         </div>
       </div>
+      <div className="mb-4">
+        <Button onClick={toggleShowCheckedOnly}>
+          {showCheckedOnly ? "Show All Monsters" : "Show Checked Monsters Only"}
+        </Button>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -251,7 +262,7 @@ const MonsterDamageCalculator = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {monsters.map((monster) => {
+          {monsters.filter(monster => !showCheckedOnly || checkedMonsters[monster.name]).map((monster) => {
             const damageStats = calculateDamage(monster);
             return (
               <TableRow key={monster.name}>
