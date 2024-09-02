@@ -116,21 +116,31 @@ const MonsterDamageCalculator = () => {
     const chaosDamageAfterResistance = playerStats.elementDamage.chaos * (1 - monster.resistances.chaos / 100);
     
     const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
-    const skillDamage = playerStats.crystalShieldSkillDamage;
-    const totalDamage = physicalDamageAfterResistance + totalElementalDamage + skillDamage;
-    const reflectDamage = skillDamage * 0.04; // 4% reflect damage, only from Crystal Shield Skill Damage
-    const hitsToKill = Math.ceil(monster.hp / totalDamage);
+    const baseDamage = physicalDamageAfterResistance + totalElementalDamage;
+    const hitsToKill = Math.ceil(monster.hp / baseDamage);
+
+    let crystalShieldDamage = 0;
+    let reflectDamage = 0;
+    let totalDamage = baseDamage;
+
+    if (hitsToKill > 1) {
+      crystalShieldDamage = playerStats.crystalShieldSkillDamage;
+      reflectDamage = crystalShieldDamage * 0.04;
+      totalDamage = baseDamage + crystalShieldDamage;
+    }
+
+    const finalHitsToKill = Math.ceil(monster.hp / totalDamage);
 
     return {
       physical: physicalDamageAfterResistance.toFixed(2),
       element: totalElementalDamage.toFixed(2),
-      skill: skillDamage.toFixed(2),
+      crystalShield: crystalShieldDamage.toFixed(2),
       damage: totalDamage.toFixed(2),
       reflect: reflectDamage.toFixed(2),
       totalDamage: (totalDamage + reflectDamage).toFixed(2),
-      hitsToKill,
-      hpRemaining: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2),
-      lastHitDamage: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2)
+      hitsToKill: finalHitsToKill,
+      hpRemaining: (monster.hp - (finalHitsToKill - 1) * totalDamage).toFixed(2),
+      lastHitDamage: (monster.hp - (finalHitsToKill - 1) * totalDamage).toFixed(2)
     };
   };
 
@@ -299,7 +309,7 @@ const MonsterDamageCalculator = () => {
                 <TableCell>{monster.hp}</TableCell>
                 <TableCell>{damageStats.physical}</TableCell>
                 <TableCell>{damageStats.element}</TableCell>
-                <TableCell>{damageStats.skill}</TableCell>
+                <TableCell>{damageStats.crystalShield}</TableCell>
                 <TableCell>{damageStats.damage}</TableCell>
                 <TableCell>{damageStats.reflect}</TableCell>
                 <TableCell>{damageStats.totalDamage}</TableCell>
