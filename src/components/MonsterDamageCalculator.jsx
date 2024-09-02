@@ -118,7 +118,7 @@ const MonsterDamageCalculator = () => {
     const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
     const skillDamage = playerStats.crystalShieldSkillDamage;
     const totalDamage = physicalDamageAfterResistance + totalElementalDamage + skillDamage;
-    const reflectDamage = totalDamage * 0.04; // 4% reflect damage
+    const reflectDamage = skillDamage * 0.04; // 4% reflect damage, only from Crystal Shield Skill Damage
     const hitsToKill = Math.ceil(monster.hp / totalDamage);
 
     return {
@@ -271,7 +271,7 @@ const MonsterDamageCalculator = () => {
             <TableHead>HP</TableHead>
             <TableHead>Physical</TableHead>
             <TableHead>Element</TableHead>
-            <TableHead>Skill</TableHead>
+            <TableHead>Crystal Shield</TableHead>
             <TableHead>Damage</TableHead>
             <TableHead>Reflect</TableHead>
             <TableHead>Total Damage</TableHead>
