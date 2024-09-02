@@ -117,29 +117,22 @@ const MonsterDamageCalculator = () => {
     
     const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
     const baseDamage = physicalDamageAfterResistance + totalElementalDamage;
-    const hitsToKill = Math.ceil(monster.hp / baseDamage);
 
-    let crystalShieldDamage = 0;
-    let reflectDamage = 0;
-    let totalDamage = baseDamage;
+    // New calculation for reflect damage
+    const reflectDamage = playerStats.crystalShieldSkillDamage - (playerStats.crystalShieldSkillDamage * monster.resistances.cold / 100);
 
-    if (hitsToKill > 1) {
-      crystalShieldDamage = playerStats.crystalShieldSkillDamage;
-      reflectDamage = crystalShieldDamage * 0.04;
-      totalDamage = baseDamage + crystalShieldDamage;
-    }
-
-    const finalHitsToKill = Math.ceil(monster.hp / totalDamage);
+    const totalDamage = baseDamage + reflectDamage;
+    const hitsToKill = Math.ceil(monster.hp / totalDamage);
 
     return {
       physical: physicalDamageAfterResistance.toFixed(2),
       element: totalElementalDamage.toFixed(2),
       damage: baseDamage.toFixed(2),
       reflect: reflectDamage.toFixed(2),
-      totalDamage: (totalDamage + reflectDamage).toFixed(2),
-      hitsToKill: finalHitsToKill,
-      hpRemaining: (monster.hp - (finalHitsToKill - 1) * totalDamage).toFixed(2),
-      lastHitDamage: (monster.hp - (finalHitsToKill - 1) * totalDamage).toFixed(2)
+      totalDamage: totalDamage.toFixed(2),
+      hitsToKill: hitsToKill,
+      hpRemaining: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2),
+      lastHitDamage: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2)
     };
   };
 
