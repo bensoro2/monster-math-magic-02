@@ -134,7 +134,6 @@ const MonsterDamageCalculator = () => {
     return {
       physical: physicalDamageAfterResistance.toFixed(2),
       element: totalElementalDamage.toFixed(2),
-      crystalShield: crystalShieldDamage.toFixed(2),
       damage: totalDamage.toFixed(2),
       reflect: reflectDamage.toFixed(2),
       totalDamage: (totalDamage + reflectDamage).toFixed(2),
@@ -281,7 +280,6 @@ const MonsterDamageCalculator = () => {
             <TableHead>HP</TableHead>
             <TableHead>Physical</TableHead>
             <TableHead>Element</TableHead>
-            <TableHead>Crystal Shield</TableHead>
             <TableHead>Damage</TableHead>
             <TableHead>Reflect</TableHead>
             <TableHead>Total Damage</TableHead>
@@ -309,7 +307,6 @@ const MonsterDamageCalculator = () => {
                 <TableCell>{monster.hp}</TableCell>
                 <TableCell>{damageStats.physical}</TableCell>
                 <TableCell>{damageStats.element}</TableCell>
-                <TableCell>{damageStats.crystalShield}</TableCell>
                 <TableCell>{damageStats.damage}</TableCell>
                 <TableCell>{damageStats.reflect}</TableCell>
                 <TableCell>{damageStats.totalDamage}</TableCell>
