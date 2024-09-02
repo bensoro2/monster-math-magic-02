@@ -134,7 +134,7 @@ const MonsterDamageCalculator = () => {
     return {
       physical: physicalDamageAfterResistance.toFixed(2),
       element: totalElementalDamage.toFixed(2),
-      damage: totalDamage.toFixed(2),
+      damage: baseDamage.toFixed(2),
       reflect: reflectDamage.toFixed(2),
       totalDamage: (totalDamage + reflectDamage).toFixed(2),
       hitsToKill: finalHitsToKill,
