@@ -26,7 +26,8 @@ const MonsterDamageCalculator = () => {
       lightning: 0,
       chaos: 53.14
     },
-    skillDamage: 4
+    skillDamage: 4,
+    crystalShieldSkillDamage: 0
   });
 
   const [checkedMonsters, setCheckedMonsters] = useState({});
@@ -116,13 +117,15 @@ const MonsterDamageCalculator = () => {
     const chaosDamageAfterResistance = playerStats.elementDamage.chaos * (1 - monster.resistances.chaos / 100);
     
     const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
-    const totalDamage = physicalDamageAfterResistance + totalElementalDamage;
+    const skillDamage = playerStats.skillDamage + playerStats.crystalShieldSkillDamage;
+    const totalDamage = physicalDamageAfterResistance + totalElementalDamage + skillDamage;
     const reflectDamage = totalDamage * 0.04; // 4% reflect damage
     const hitsToKill = Math.ceil(monster.hp / totalDamage);
 
     return {
       physical: physicalDamageAfterResistance.toFixed(2),
       element: totalElementalDamage.toFixed(2),
+      skill: skillDamage.toFixed(2),
       damage: totalDamage.toFixed(2),
       reflect: reflectDamage.toFixed(2),
       totalDamage: (totalDamage + reflectDamage).toFixed(2),
@@ -149,6 +152,20 @@ const MonsterDamageCalculator = () => {
         ...prevStats.elementDamage,
         [type]: parseFloat(value) || 0
       }
+    }));
+  };
+
+  const handleSkillDamageChange = (value) => {
+    setPlayerStats(prevStats => ({
+      ...prevStats,
+      skillDamage: parseFloat(value) || 0
+    }));
+  };
+
+  const handleCrystalShieldSkillDamageChange = (value) => {
+    setPlayerStats(prevStats => ({
+      ...prevStats,
+      crystalShieldSkillDamage: parseFloat(value) || 0
     }));
   };
 
@@ -239,6 +256,24 @@ const MonsterDamageCalculator = () => {
             onChange={(e) => handleElementDamageChange('chaos', e.target.value)}
           />
         </div>
+        <div>
+          <Label htmlFor="skillDamage">Skill Damage</Label>
+          <Input
+            id="skillDamage"
+            type="number"
+            value={playerStats.skillDamage}
+            onChange={(e) => handleSkillDamageChange(e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="crystalShieldSkillDamage">Crystal Shield Skill Damage</Label>
+          <Input
+            id="crystalShieldSkillDamage"
+            type="number"
+            value={playerStats.crystalShieldSkillDamage}
+            onChange={(e) => handleCrystalShieldSkillDamageChange(e.target.value)}
+          />
+        </div>
       </div>
       <div className="mb-4">
         <Button onClick={toggleShowCheckedOnly}>
@@ -253,6 +288,7 @@ const MonsterDamageCalculator = () => {
             <TableHead>HP</TableHead>
             <TableHead>Physical</TableHead>
             <TableHead>Element</TableHead>
+            <TableHead>Skill</TableHead>
             <TableHead>Damage</TableHead>
             <TableHead>Reflect</TableHead>
             <TableHead>Total Damage</TableHead>
@@ -280,6 +316,7 @@ const MonsterDamageCalculator = () => {
                 <TableCell>{monster.hp}</TableCell>
                 <TableCell>{damageStats.physical}</TableCell>
                 <TableCell>{damageStats.element}</TableCell>
+                <TableCell>{damageStats.skill}</TableCell>
                 <TableCell>{damageStats.damage}</TableCell>
                 <TableCell>{damageStats.reflect}</TableCell>
                 <TableCell>{damageStats.totalDamage}</TableCell>
