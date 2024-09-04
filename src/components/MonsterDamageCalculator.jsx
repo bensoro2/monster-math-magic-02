@@ -265,7 +265,7 @@ const MonsterDamageCalculator = () => {
           {showCheckedOnly ? "Show All Monsters" : "Show Checked Monsters Only"}
         </Button>
         <Button onClick={() => window.open("https://preview--calculate-monster-mania.gptengineer.run/", "_blank")}>
-          Defence from monster
+          Defence
         </Button>
       </div>
       <Table>
