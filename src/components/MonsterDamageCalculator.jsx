@@ -118,7 +118,7 @@ const MonsterDamageCalculator = () => {
     const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
     const baseDamage = physicalDamageAfterResistance + totalElementalDamage;
 
-    // New calculation for reflect damage
+    // Updated calculation for reflect damage
     const reflectDamage = playerStats.crystalShieldSkillDamage - (playerStats.crystalShieldSkillDamage * monster.resistances.cold / 100);
 
     const totalDamage = baseDamage + reflectDamage;
@@ -260,9 +260,12 @@ const MonsterDamageCalculator = () => {
           />
         </div>
       </div>
-      <div className="mb-4">
+      <div className="mb-4 flex space-x-2">
         <Button onClick={toggleShowCheckedOnly}>
           {showCheckedOnly ? "Show All Monsters" : "Show Checked Monsters Only"}
+        </Button>
+        <Button onClick={() => window.open("https://preview--calculate-monster-mania.gptengineer.run/", "_blank")}>
+          Defence from monster
         </Button>
       </div>
       <Table>
