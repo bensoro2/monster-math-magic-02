@@ -1,4 +1,5 @@
 export const monsters = [
+export const monsters = [
   { name: "Rat", type: "Smashing", hp: 35, resistances: { physical: 0, fire: 20, cold: 50, lightning: 20, chaos: 0 } },
   { name: "Snake", type: "Smashing", hp: 55, resistances: { physical: 10, fire: 25, cold: 70, lightning: 30, chaos: 0 } },
   { name: "Living Tree", type: "Chopping wood", hp: 69, resistances: { physical: 5, fire: 0, cold: 25, lightning: 60, chaos: 10 } },
@@ -53,5 +54,16 @@ export const monsters = [
   { name: "Gigatron Spirit", type: "Mining", hp: 349, resistances: { physical: 70, fire: 65, cold: 65, lightning: 25, chaos: 65 } },
   { name: "Guardian of Gaia Spirit", type: "Chopping wood", hp: 352, resistances: { physical: 70, fire: 15, cold: 45, lightning: 90, chaos: 60 } },
   { name: "Terra Golem Spirit", type: "Hitting rock", hp: 363, resistances: { physical: 70, fire: 90, cold: 25, lightning: 70, chaos: 35 } },
-  { name: "Crocobeast Spirit", type: "Smashing", hp: 345, resistances: { physical: 70, fire: 60, cold: 90, lightning: 45, chaos: 25 } }
+  { name: "Crocobeast Spirit", type: "Smashing", hp: 345, resistances: { physical: 70, fire: 60, cold: 90, lightning: 45, chaos: 25 } },
+  { name: "Penguin", type: "Smashing", hp: 113, resistances: { physical: 25, fire: 10, cold: 50, lightning: 10, chaos: 45 } },
+  { name: "Yeti", type: "Hitting rock", hp: 183, resistances: { physical: 25, fire: 25, cold: 55, lightning: 40, chaos: 20 } },
+  { name: "Fang", type: "Smashing", hp: 220, resistances: { physical: 30, fire: 20, cold: 60, lightning: 20, chaos: 70 } },
+  { name: "Yuki", type: "Hitting rock", hp: 382, resistances: { physical: 40, fire: 20, cold: 75, lightning: 60, chaos: 40 } },
+  { name: "Golden Pook Pook", type: "Smashing", hp: 114, resistances: { physical: 0, fire: 20, cold: 60, lightning: 80, chaos: 5 } },
+  { name: "Golden Echo", type: "Smashing", hp: 121, resistances: { physical: 0, fire: 25, cold: 60, lightning: 25, chaos: 5 } },
+  { name: "Golden Viper", type: "Smashing", hp: 128, resistances: { physical: 10, fire: 20, cold: 60, lightning: 20, chaos: 10 } },
+  { name: "Golden Penguin", type: "Smashing", hp: 136, resistances: { physical: 25, fire: 10, cold: 50, lightning: 10, chaos: 45 } },
+  { name: "Golden Funga", type: "Chopping wood", hp: 212, resistances: { physical: 20, fire: 5, cold: 30, lightning: 60, chaos: 35 } },
+  { name: "Golden Chippy", type: "Smashing", hp: 155, resistances: { physical: 15, fire: 35, cold: 70, lightning: 35, chaos: 10 } },
+  { name: "Golden Eggnite", type: "Mining", hp: 170, resistances: { physical: 25, fire: 40, cold: 40, lightning: 10, chaos: 50 } }
 ];
