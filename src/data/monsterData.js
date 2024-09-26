@@ -1,5 +1,4 @@
 export const monsters = [
-export const monsters = [
   { name: "Rat", type: "Smashing", hp: 35, resistances: { physical: 0, fire: 20, cold: 50, lightning: 20, chaos: 0 } },
   { name: "Snake", type: "Smashing", hp: 55, resistances: { physical: 10, fire: 25, cold: 70, lightning: 30, chaos: 0 } },
   { name: "Living Tree", type: "Chopping wood", hp: 69, resistances: { physical: 5, fire: 0, cold: 25, lightning: 60, chaos: 10 } },
