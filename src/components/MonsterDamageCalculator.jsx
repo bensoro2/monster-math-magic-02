@@ -32,6 +32,7 @@ const MonsterDamageCalculator = () => {
 
   const [checkedMonsters, setCheckedMonsters] = useState({});
   const [showCheckedOnly, setShowCheckedOnly] = useState(false);
+  const [typeFilter, setTypeFilter] = useState('');
 
   const calculateDamage = (monster) => {
     let physicalDamage = 0;
@@ -99,6 +100,11 @@ const MonsterDamageCalculator = () => {
     setShowCheckedOnly(!showCheckedOnly);
   };
 
+  const filteredMonsters = monsters.filter(monster => 
+    (!showCheckedOnly || checkedMonsters[monster.name]) &&
+    (typeFilter === '' || monster.type.toLowerCase().includes(typeFilter.toLowerCase()))
+  );
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Monster Damage Calculator</h2>
@@ -134,6 +140,16 @@ const MonsterDamageCalculator = () => {
             onChange={(e) => setPlayerStats(prev => ({ ...prev, crystalShieldSkillDamage: parseFloat(e.target.value) || 0 }))}
           />
         </div>
+        <div>
+          <Label htmlFor="typeFilter">Filter by Monster Type</Label>
+          <Input
+            id="typeFilter"
+            type="text"
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            placeholder="Enter monster type..."
+          />
+        </div>
       </div>
       <div className="mb-4 flex space-x-2">
         <Button onClick={toggleShowCheckedOnly}>
@@ -160,7 +176,7 @@ const MonsterDamageCalculator = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {monsters.filter(monster => !showCheckedOnly || checkedMonsters[monster.name]).map((monster) => {
+          {filteredMonsters.map((monster) => {
             const damageStats = calculateDamage(monster);
             return (
               <TableRow key={monster.name}>
