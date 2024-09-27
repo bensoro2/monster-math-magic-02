@@ -64,5 +64,10 @@ export const monsters = [
   { name: "Golden Penguin", type: "Smashing", hp: 136, resistances: { physical: 25, fire: 10, cold: 50, lightning: 10, chaos: 45 } },
   { name: "Golden Funga", type: "Chopping wood", hp: 212, resistances: { physical: 20, fire: 5, cold: 30, lightning: 60, chaos: 35 } },
   { name: "Golden Chippy", type: "Smashing", hp: 155, resistances: { physical: 15, fire: 35, cold: 70, lightning: 35, chaos: 10 } },
-  { name: "Golden Eggnite", type: "Mining", hp: 170, resistances: { physical: 25, fire: 40, cold: 40, lightning: 10, chaos: 50 } }
+  { name: "Golden Eggnite", type: "Mining", hp: 170, resistances: { physical: 25, fire: 40, cold: 40, lightning: 10, chaos: 50 } },
+  { name: "Golden Thun-Thun", type: "Hitting rock", hp: 164, resistances: { physical: 25, fire: 60, cold: 5, lightning: 45, chaos: 15 } },
+  { name: "Golden Twister", type: "Hitting rock", hp: 223, resistances: { physical: 25, fire: 70, cold: 15, lightning: 40, chaos: 25 } },
+  { name: "Golden Yeti", type: "Hitting rock", hp: 220, resistances: { physical: 25, fire: 25, cold: 55, lightning: 40, chaos: 20 } },
+  { name: "Golden Fang", type: "Smashing", hp: 264, resistances: { physical: 30, fire: 20, cold: 60, lightning: 35, chaos: 70 } },
+  { name: "Golden Ruin Guard", type: "Mining", hp: 244, resistances: { physical: 30, fire: 60, cold: 60, lightning: 10, chaos: 60 } }
 ];
