@@ -32,7 +32,7 @@ const MonsterDamageCalculator = () => {
 
   const [checkedMonsters, setCheckedMonsters] = useState({});
   const [showCheckedOnly, setShowCheckedOnly] = useState(false);
-  const [typeFilter, setTypeFilter] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const calculateDamage = (monster) => {
     let physicalDamage = 0;
@@ -102,7 +102,8 @@ const MonsterDamageCalculator = () => {
 
   const filteredMonsters = monsters.filter(monster => 
     (!showCheckedOnly || checkedMonsters[monster.name]) &&
-    (typeFilter === '' || monster.type.toLowerCase().includes(typeFilter.toLowerCase()))
+    (monster.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+     monster.name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -141,13 +142,13 @@ const MonsterDamageCalculator = () => {
           />
         </div>
         <div>
-          <Label htmlFor="typeFilter">Filter by Monster Type</Label>
+          <Label htmlFor="searchTerm">Search by Monster Type or Name</Label>
           <Input
-            id="typeFilter"
+            id="searchTerm"
             type="text"
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-            placeholder="Enter monster type..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Enter monster type or name..."
           />
         </div>
       </div>
