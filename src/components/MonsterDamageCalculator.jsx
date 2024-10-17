@@ -10,8 +10,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import CalculatorButtons from './CalculatorButtons';
 import { monsters } from '../data/monsterData';
+import { calculateDamage } from '../utils/damageCalculator';
 
 const MonsterDamageCalculator = () => {
   const [playerStats, setPlayerStats] = useState({
@@ -34,51 +35,6 @@ const MonsterDamageCalculator = () => {
   const [showCheckedOnly, setShowCheckedOnly] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const calculateDamage = (monster) => {
-    let physicalDamage = 0;
-    switch (monster.type) {
-      case "Chopping wood":
-        physicalDamage = playerStats.physicalDamage.woodChopping;
-        break;
-      case "Hitting rock":
-        physicalDamage = playerStats.physicalDamage.rockBreaking;
-        break;
-      case "Mining":
-        physicalDamage = playerStats.physicalDamage.mineralMining;
-        break;
-      case "Smashing":
-        physicalDamage = playerStats.physicalDamage.smashing;
-        break;
-      default:
-        physicalDamage = 0;
-    }
-
-    const physicalDamageAfterResistance = physicalDamage * (1 - monster.resistances.physical / 100);
-    const fireDamageAfterResistance = playerStats.elementDamage.fire * (1 - monster.resistances.fire / 100);
-    const coldDamageAfterResistance = playerStats.elementDamage.cold * (1 - monster.resistances.cold / 100);
-    const lightningDamageAfterResistance = playerStats.elementDamage.lightning * (1 - monster.resistances.lightning / 100);
-    const chaosDamageAfterResistance = playerStats.elementDamage.chaos * (1 - monster.resistances.chaos / 100);
-    
-    const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
-    const baseDamage = physicalDamageAfterResistance + totalElementalDamage;
-
-    const reflectDamage = playerStats.crystalShieldSkillDamage - (playerStats.crystalShieldSkillDamage * monster.resistances.cold / 100);
-
-    const totalDamage = baseDamage + reflectDamage;
-    const hitsToKill = Math.ceil(monster.hp / totalDamage);
-
-    return {
-      physical: physicalDamageAfterResistance.toFixed(2),
-      element: totalElementalDamage.toFixed(2),
-      damage: baseDamage.toFixed(2),
-      reflect: reflectDamage.toFixed(2),
-      totalDamage: totalDamage.toFixed(2),
-      hitsToKill: hitsToKill,
-      hpRemaining: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2),
-      lastHitDamage: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2)
-    };
-  };
-
   const handleStatChange = (category, type, value) => {
     setPlayerStats(prevStats => ({
       ...prevStats,
@@ -94,10 +50,6 @@ const MonsterDamageCalculator = () => {
       ...prev,
       [monsterName]: !prev[monsterName]
     }));
-  };
-
-  const toggleShowCheckedOnly = () => {
-    setShowCheckedOnly(!showCheckedOnly);
   };
 
   const filteredMonsters = monsters.filter(monster => 
@@ -152,14 +104,7 @@ const MonsterDamageCalculator = () => {
           />
         </div>
       </div>
-      <div className="mb-4 flex space-x-2">
-        <Button onClick={toggleShowCheckedOnly}>
-          {showCheckedOnly ? "Show All Monsters" : "Show Checked Monsters Only"}
-        </Button>
-        <Button onClick={() => window.open("https://preview--calculate-monster-mania.gptengineer.run/", "_blank")}>
-          Defence
-        </Button>
-      </div>
+      <CalculatorButtons showCheckedOnly={showCheckedOnly} setShowCheckedOnly={setShowCheckedOnly} />
       <Table>
         <TableHeader>
           <TableRow>
@@ -178,7 +123,7 @@ const MonsterDamageCalculator = () => {
         </TableHeader>
         <TableBody>
           {filteredMonsters.map((monster) => {
-            const damageStats = calculateDamage(monster);
+            const damageStats = calculateDamage(monster, playerStats);
             return (
               <TableRow key={monster.name}>
                 <TableCell>
