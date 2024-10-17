@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 
-const CalculatorButtons = () => {
+const CalculatorButtons = ({ showCheckedOnly, setShowCheckedOnly }) => {
   return (
     <div className="mb-4 flex space-x-2">
       <Button onClick={() => setShowCheckedOnly(!showCheckedOnly)}>
