@@ -58,6 +58,12 @@ const MonsterDamageCalculator = () => {
      monster.name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  const getHitsToKillColor = (hitsToKill) => {
+    if (hitsToKill === 1) return 'text-green-500';
+    if (hitsToKill >= 2 && hitsToKill <= 5) return 'text-yellow-500';
+    return 'text-red-500';
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Monster Damage Calculator</h2>
@@ -143,7 +149,9 @@ const MonsterDamageCalculator = () => {
                 <TableCell>{damageStats.damage}</TableCell>
                 <TableCell>{damageStats.reflect}</TableCell>
                 <TableCell>{damageStats.totalDamage}</TableCell>
-                <TableCell>{damageStats.hitsToKill}</TableCell>
+                <TableCell className={getHitsToKillColor(damageStats.hitsToKill)}>
+                  {damageStats.hitsToKill}
+                </TableCell>
                 <TableCell>{damageStats.hpRemaining}</TableCell>
                 <TableCell>{damageStats.lastHitDamage}</TableCell>
               </TableRow>
