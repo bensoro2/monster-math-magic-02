@@ -130,6 +130,7 @@ const MonsterDamageCalculator = () => {
         <TableBody>
           {filteredMonsters.map((monster) => {
             const damageStats = calculateDamage(monster, playerStats);
+            const colorClass = getHitsToKillColor(damageStats.hitsToKill);
             return (
               <TableRow key={monster.name}>
                 <TableCell>
@@ -142,18 +143,18 @@ const MonsterDamageCalculator = () => {
                     <label htmlFor={`check-${monster.name}`}>{monster.name}</label>
                   </div>
                 </TableCell>
-                <TableCell>{monster.type}</TableCell>
-                <TableCell>{monster.hp}</TableCell>
-                <TableCell>{damageStats.physical}</TableCell>
-                <TableCell>{damageStats.element}</TableCell>
-                <TableCell>{damageStats.damage}</TableCell>
-                <TableCell>{damageStats.reflect}</TableCell>
-                <TableCell>{damageStats.totalDamage}</TableCell>
-                <TableCell className={getHitsToKillColor(damageStats.hitsToKill)}>
+                <TableCell className={colorClass}>{monster.type}</TableCell>
+                <TableCell className={colorClass}>{monster.hp}</TableCell>
+                <TableCell className={colorClass}>{damageStats.physical}</TableCell>
+                <TableCell className={colorClass}>{damageStats.element}</TableCell>
+                <TableCell className={colorClass}>{damageStats.damage}</TableCell>
+                <TableCell className={colorClass}>{damageStats.reflect}</TableCell>
+                <TableCell className={colorClass}>{damageStats.totalDamage}</TableCell>
+                <TableCell className={colorClass}>
                   {damageStats.hitsToKill}
                 </TableCell>
-                <TableCell>{damageStats.hpRemaining}</TableCell>
-                <TableCell>{damageStats.lastHitDamage}</TableCell>
+                <TableCell className={colorClass}>{damageStats.hpRemaining}</TableCell>
+                <TableCell className={colorClass}>{damageStats.lastHitDamage}</TableCell>
               </TableRow>
             );
           })}
