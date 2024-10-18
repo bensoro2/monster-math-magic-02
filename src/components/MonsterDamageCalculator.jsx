@@ -140,7 +140,7 @@ const MonsterDamageCalculator = () => {
                       checked={checkedMonsters[monster.name] || false}
                       onCheckedChange={() => handleMonsterCheck(monster.name)}
                     />
-                    <label htmlFor={`check-${monster.name}`}>{monster.name}</label>
+                    <label htmlFor={`check-${monster.name}`} className={colorClass}>{monster.name}</label>
                   </div>
                 </TableCell>
                 <TableCell className={colorClass}>{monster.type}</TableCell>
