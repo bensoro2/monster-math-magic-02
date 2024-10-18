@@ -111,20 +111,20 @@ const MonsterDamageCalculator = () => {
         </div>
       </div>
       <CalculatorButtons showCheckedOnly={showCheckedOnly} setShowCheckedOnly={setShowCheckedOnly} />
-      <Table>
+      <Table className="border-collapse">
         <TableHeader>
           <TableRow>
-            <TableHead>Monster</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>HP</TableHead>
-            <TableHead>Physical</TableHead>
-            <TableHead>Element</TableHead>
-            <TableHead>Damage</TableHead>
-            <TableHead>Reflect</TableHead>
-            <TableHead>Total Damage</TableHead>
-            <TableHead>Hits to Kill</TableHead>
-            <TableHead>HP Remaining</TableHead>
-            <TableHead>Last Hit</TableHead>
+            <TableHead className="border border-gray-300">Monster</TableHead>
+            <TableHead className="border border-gray-300">Type</TableHead>
+            <TableHead className="border border-gray-300">HP</TableHead>
+            <TableHead className="border border-gray-300">Physical</TableHead>
+            <TableHead className="border border-gray-300">Element</TableHead>
+            <TableHead className="border border-gray-300">Damage</TableHead>
+            <TableHead className="border border-gray-300">Reflect</TableHead>
+            <TableHead className="border border-gray-300">Total Damage</TableHead>
+            <TableHead className="border border-gray-300">Hits to Kill</TableHead>
+            <TableHead className="border border-gray-300">HP Remaining</TableHead>
+            <TableHead className="border border-gray-300">Last Hit</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -133,7 +133,7 @@ const MonsterDamageCalculator = () => {
             const colorClass = getHitsToKillColor(damageStats.hitsToKill);
             return (
               <TableRow key={monster.name}>
-                <TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id={`check-${monster.name}`}
@@ -143,18 +143,18 @@ const MonsterDamageCalculator = () => {
                     <label htmlFor={`check-${monster.name}`} className={colorClass}>{monster.name}</label>
                   </div>
                 </TableCell>
-                <TableCell className={colorClass}>{monster.type}</TableCell>
-                <TableCell className={colorClass}>{monster.hp}</TableCell>
-                <TableCell className={colorClass}>{damageStats.physical}</TableCell>
-                <TableCell className={colorClass}>{damageStats.element}</TableCell>
-                <TableCell className={colorClass}>{damageStats.damage}</TableCell>
-                <TableCell className={colorClass}>{damageStats.reflect}</TableCell>
-                <TableCell className={colorClass}>{damageStats.totalDamage}</TableCell>
-                <TableCell className={colorClass}>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{monster.type}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{monster.hp}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.physical}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.element}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.damage}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.reflect}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.totalDamage}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>
                   {damageStats.hitsToKill}
                 </TableCell>
-                <TableCell className={colorClass}>{damageStats.hpRemaining}</TableCell>
-                <TableCell className={colorClass}>{damageStats.lastHitDamage}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.hpRemaining}</TableCell>
+                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.lastHitDamage}</TableCell>
               </TableRow>
             );
           })}
