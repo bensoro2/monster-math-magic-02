@@ -7,10 +7,10 @@ const CalculatorButtons = ({ showCheckedOnly, setShowCheckedOnly }) => {
       <Button onClick={() => setShowCheckedOnly(!showCheckedOnly)}>
         {showCheckedOnly ? "Show All Monsters" : "Show Checked Monsters Only"}
       </Button>
-      <Button onClick={() => window.open("https://preview--calculate-monster-mania.gptengineer.run/", "_blank")}>
+      <Button onClick={() => window.open("https://damage-from-monster-mmv.netlify.app/", "_blank")}>
         Defence
       </Button>
-      <Button onClick={() => window.open("https://preview--coin-price-viewer.gptengineer.run/", "_blank")}>
+      <Button onClick={() => window.open("https://check-price-mmv.netlify.app/", "_blank")}>
         เช็คราคาเหรียญ
       </Button>
     </div>
