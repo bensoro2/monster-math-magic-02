@@ -52,11 +52,16 @@ const MonsterDamageCalculator = () => {
     }));
   };
 
-  const filteredMonsters = monsters.filter(monster => 
-    (!showCheckedOnly || checkedMonsters[monster.name]) &&
-    (monster.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     monster.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredMonsters = monsters.filter(monster => {
+    const matchesSearch = monster.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         monster.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const isChecked = checkedMonsters[monster.name];
+    
+    if (showCheckedOnly) {
+      return isChecked && matchesSearch;
+    }
+    return matchesSearch;
+  });
 
   const getHitsToKillColor = (hitsToKill) => {
     if (hitsToKill === 1) return 'text-green-500';
@@ -109,6 +114,16 @@ const MonsterDamageCalculator = () => {
             placeholder="Enter monster type or name..."
           />
         </div>
+      </div>
+      <div className="mb-4">
+        <Checkbox
+          id="showCheckedOnly"
+          checked={showCheckedOnly}
+          onCheckedChange={() => setShowCheckedOnly(!showCheckedOnly)}
+        />
+        <Label htmlFor="showCheckedOnly" className="ml-2">
+          Show Checked Monsters Only
+        </Label>
       </div>
       <CalculatorButtons showCheckedOnly={showCheckedOnly} setShowCheckedOnly={setShowCheckedOnly} />
       <Table className="border-collapse">
