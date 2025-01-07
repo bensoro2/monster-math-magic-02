@@ -55,10 +55,9 @@ const MonsterDamageCalculator = () => {
   const filteredMonsters = monsters.filter(monster => {
     const matchesSearch = monster.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          monster.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const isChecked = checkedMonsters[monster.name];
     
     if (showCheckedOnly) {
-      return isChecked && matchesSearch;
+      return checkedMonsters[monster.name] === true && matchesSearch;
     }
     return matchesSearch;
   });
