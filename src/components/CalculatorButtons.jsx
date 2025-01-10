@@ -1,12 +1,9 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 
-const CalculatorButtons = ({ showCheckedOnly, setShowCheckedOnly }) => {
+const CalculatorButtons = () => {
   return (
     <div className="mb-4 flex space-x-2">
-      <Button onClick={() => setShowCheckedOnly(!showCheckedOnly)}>
-        {showCheckedOnly ? "Show All Monsters" : "Show Checked Monsters Only"}
-      </Button>
       <Button onClick={() => window.open("https://damage-from-monster-mmv.netlify.app/", "_blank")}>
         Defence
       </Button>

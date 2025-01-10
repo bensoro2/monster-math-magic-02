@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import CalculatorButtons from './CalculatorButtons';
 import { monsters } from '../data/monsterData';
 import { calculateDamage } from '../utils/damageCalculator';
@@ -31,8 +30,6 @@ const MonsterDamageCalculator = () => {
     crystalShieldSkillDamage: 4
   });
 
-  const [checkedMonsters, setCheckedMonsters] = useState({});
-  const [showCheckedOnly, setShowCheckedOnly] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleStatChange = (category, type, value) => {
@@ -45,20 +42,9 @@ const MonsterDamageCalculator = () => {
     }));
   };
 
-  const handleMonsterCheck = (monsterName) => {
-    setCheckedMonsters(prev => ({
-      ...prev,
-      [monsterName]: !prev[monsterName]
-    }));
-  };
-
   const filteredMonsters = monsters.filter(monster => {
     const matchesSearch = monster.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          monster.name.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    if (showCheckedOnly) {
-      return checkedMonsters[monster.name] === true && matchesSearch;
-    }
     return matchesSearch;
   });
 
@@ -114,17 +100,7 @@ const MonsterDamageCalculator = () => {
           />
         </div>
       </div>
-      <div className="mb-4">
-        <Checkbox
-          id="showCheckedOnly"
-          checked={showCheckedOnly}
-          onCheckedChange={() => setShowCheckedOnly(!showCheckedOnly)}
-        />
-        <Label htmlFor="showCheckedOnly" className="ml-2">
-          Show Checked Monsters Only
-        </Label>
-      </div>
-      <CalculatorButtons showCheckedOnly={showCheckedOnly} setShowCheckedOnly={setShowCheckedOnly} />
+      <CalculatorButtons />
       <Table className="border-collapse">
         <TableHeader>
           <TableRow>
@@ -148,14 +124,7 @@ const MonsterDamageCalculator = () => {
             return (
               <TableRow key={monster.name}>
                 <TableCell className={`border border-gray-300 ${colorClass}`}>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`check-${monster.name}`}
-                      checked={checkedMonsters[monster.name] || false}
-                      onCheckedChange={() => handleMonsterCheck(monster.name)}
-                    />
-                    <label htmlFor={`check-${monster.name}`} className={colorClass}>{monster.name}</label>
-                  </div>
+                  {monster.name}
                 </TableCell>
                 <TableCell className={`border border-gray-300 ${colorClass}`}>{monster.type}</TableCell>
                 <TableCell className={`border border-gray-300 ${colorClass}`}>{monster.hp}</TableCell>
