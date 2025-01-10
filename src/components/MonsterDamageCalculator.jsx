@@ -30,8 +30,6 @@ const MonsterDamageCalculator = () => {
     crystalShieldSkillDamage: 4
   });
 
-  const [searchTerm, setSearchTerm] = useState('');
-
   const handleStatChange = (category, type, value) => {
     setPlayerStats(prevStats => ({
       ...prevStats,
@@ -41,12 +39,6 @@ const MonsterDamageCalculator = () => {
       }
     }));
   };
-
-  const filteredMonsters = monsters.filter(monster => {
-    const matchesSearch = monster.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         monster.name.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesSearch;
-  });
 
   const getHitsToKillColor = (hitsToKill) => {
     if (hitsToKill === 1) return 'text-green-500';
@@ -89,16 +81,6 @@ const MonsterDamageCalculator = () => {
             onChange={(e) => setPlayerStats(prev => ({ ...prev, crystalShieldSkillDamage: parseFloat(e.target.value) || 0 }))}
           />
         </div>
-        <div>
-          <Label htmlFor="searchTerm">Search by Monster Type or Name</Label>
-          <Input
-            id="searchTerm"
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Enter monster type or name..."
-          />
-        </div>
       </div>
       <CalculatorButtons />
       <Table className="border-collapse">
@@ -118,7 +100,7 @@ const MonsterDamageCalculator = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredMonsters.map((monster) => {
+          {monsters.map((monster) => {
             const damageStats = calculateDamage(monster, playerStats);
             const colorClass = getHitsToKillColor(damageStats.hitsToKill);
             return (
