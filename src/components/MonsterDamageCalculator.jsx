@@ -60,7 +60,7 @@ const MonsterDamageCalculator = () => {
   const toggleShowSelected = () => {
     setShowSelectedOnly(!showSelectedOnly);
   };
-
+#แสดงเฉพาะข้อมูลที่เลือก
   const filteredMonsters = showSelectedOnly
     ? monsters.filter(monster => checkedMonsters[monster.name])
     : monsters;
