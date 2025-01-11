@@ -32,6 +32,7 @@ const MonsterDamageCalculator = () => {
   });
 
   const [checkedMonsters, setCheckedMonsters] = useState({});
+  const [showSelectedOnly, setShowSelectedOnly] = useState(false);
 
   const handleStatChange = (category, type, value) => {
     setPlayerStats(prevStats => ({
@@ -55,6 +56,14 @@ const MonsterDamageCalculator = () => {
     if (hitsToKill >= 2 && hitsToKill <= 5) return 'text-yellow-500';
     return 'text-red-500';
   };
+
+  const toggleShowSelected = () => {
+    setShowSelectedOnly(!showSelectedOnly);
+  };
+
+  const filteredMonsters = showSelectedOnly
+    ? monsters.filter(monster => checkedMonsters[monster.name])
+    : monsters;
 
   return (
     <div className="container mx-auto p-4">
@@ -92,7 +101,7 @@ const MonsterDamageCalculator = () => {
           />
         </div>
       </div>
-      <CalculatorButtons />
+      <CalculatorButtons onShowSelectedOnly={toggleShowSelected} />
       <Table className="border-collapse">
         <TableHeader>
           <TableRow>
@@ -111,7 +120,7 @@ const MonsterDamageCalculator = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {monsters.map((monster) => {
+          {filteredMonsters.map((monster) => {
             const damageStats = calculateDamage(monster, playerStats);
             const colorClass = getHitsToKillColor(damageStats.hitsToKill);
             return (
