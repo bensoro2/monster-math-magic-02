@@ -1,39 +1,44 @@
 export const calculateDamage = (monster, playerStats) => {
-  // Initialize default values for physical damage based on monster type
-  const physicalDamageByType = {
-    'Smashing': playerStats.physical.attack || 0,
-    'Hitting rock': playerStats.physical.attack || 0,
-    'Mining': playerStats.physical.attack || 0,
-    'Chopping wood': playerStats.physical.attack || 0
-  };
+  let physicalDamage = 0;
+  switch (monster.type) {
+    case "Chopping wood":
+      physicalDamage = playerStats.physicalDamage.woodChopping;
+      break;
+    case "Hitting rock":
+      physicalDamage = playerStats.physicalDamage.rockBreaking;
+      break;
+    case "Mining":
+      physicalDamage = playerStats.physicalDamage.mineralMining;
+      break;
+    case "Smashing":
+      physicalDamage = playerStats.physicalDamage.smashing;
+      break;
+    default:
+      physicalDamage = 0;
+  }
 
-  // Get physical damage based on monster type, default to 0 if type not found
-  const physicalDamage = physicalDamageByType[monster.type] || 0;
+  const physicalDamageAfterResistance = physicalDamage * (1 - monster.resistances.physical / 100);
+  const fireDamageAfterResistance = playerStats.elementDamage.fire * (1 - monster.resistances.fire / 100);
+  const coldDamageAfterResistance = playerStats.elementDamage.cold * (1 - monster.resistances.cold / 100);
+  const lightningDamageAfterResistance = playerStats.elementDamage.lightning * (1 - monster.resistances.lightning / 100);
+  const chaosDamageAfterResistance = playerStats.elementDamage.chaos * (1 - monster.resistances.chaos / 100);
+  
+  const totalElementalDamage = fireDamageAfterResistance + coldDamageAfterResistance + lightningDamageAfterResistance + chaosDamageAfterResistance;
+  const baseDamage = physicalDamageAfterResistance + totalElementalDamage;
 
-  // Calculate physical damage after resistance
-  const physicalDamageAfterResistance = physicalDamage * (1 - (monster.resistances.physical || 0) / 100);
+  const reflectDamage = playerStats.crystalShieldSkillDamage - (playerStats.crystalShieldSkillDamage * monster.resistances.cold / 100);
 
-  // Calculate elemental damages after resistances
-  const elementalDamage = playerStats.elemental.attack || 0;
-  const elementalDamageAfterResistance = elementalDamage * (1 - (monster.resistances.fire || 0) / 100);
-
-  // Calculate crystal shield skill damage
-  const crystalShieldDamage = (playerStats.skills.crystalShieldSkillDamage || 0) * (1 - (monster.resistances.cold || 0) / 100);
-
-  // Calculate total damage
-  const baseDamage = physicalDamageAfterResistance + elementalDamageAfterResistance;
-  const totalDamage = baseDamage + crystalShieldDamage;
-
-  // Calculate hits to kill
+  const totalDamage = baseDamage + reflectDamage;
   const hitsToKill = Math.ceil(monster.hp / totalDamage);
-  const lastHit = monster.hp - ((hitsToKill - 1) * totalDamage);
 
   return {
+    physical: physicalDamageAfterResistance.toFixed(2),
+    element: totalElementalDamage.toFixed(2),
     damage: baseDamage.toFixed(2),
-    reflect: crystalShieldDamage.toFixed(2),
+    reflect: reflectDamage.toFixed(2),
     totalDamage: totalDamage.toFixed(2),
     hitsToKill: hitsToKill,
-    hpRemaining: lastHit.toFixed(2),
-    lastHit: lastHit.toFixed(2)
+    hpRemaining: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2),
+    lastHitDamage: (monster.hp - (hitsToKill - 1) * totalDamage).toFixed(2)
   };
 };

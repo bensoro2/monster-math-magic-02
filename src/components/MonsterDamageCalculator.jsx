@@ -10,58 +10,59 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import CalculatorButtons from "./CalculatorButtons";
-import { monsters } from "../data/monsterData";
-import { calculateDamage } from "../utils/damageCalculator";
+import CalculatorButtons from './CalculatorButtons';
+import { monsters } from '../data/monsterData';
+import { calculateDamage } from '../utils/damageCalculator';
 
 const MonsterDamageCalculator = () => {
   const [playerStats, setPlayerStats] = useState({
     physical: {
       attack: 0,
       defense: 0,
-      penetration: 0,
+      penetration: 0
     },
     elemental: {
       attack: 0,
       defense: 0,
-      penetration: 0,
+      penetration: 0
     },
     skills: {
-      crystalShieldSkillDamage: 4,
-    },
+      crystalShieldSkillDamage: 4
+    }
   });
 
   const [checkedMonsters, setCheckedMonsters] = useState({});
   const [showSelectedOnly, setShowSelectedOnly] = useState(false);
 
   const handleStatChange = (category, type, value) => {
-    setPlayerStats((prevStats) => ({
+    setPlayerStats(prevStats => ({
       ...prevStats,
       [category]: {
         ...prevStats[category],
-        [type]: parseFloat(value) || 0,
-      },
+        [type]: parseFloat(value) || 0
+      }
     }));
   };
 
   const handleMonsterCheck = (monsterName) => {
-    setCheckedMonsters((prev) => ({
+    setCheckedMonsters(prev => ({
       ...prev,
-      [monsterName]: !prev[monsterName],
+      [monsterName]: !prev[monsterName]
     }));
   };
 
   const getHitsToKillColor = (hits) => {
-    if (hits === 1) return "text-green-500";
-    if (hits >= 2 && hits <= 5) return "text-yellow-500";
-    return "text-red-500";
+    if (hits === 1) return 'text-green-500';
+    if (hits >= 2 && hits <= 5) return 'text-yellow-500';
+    return 'text-red-500';
   };
 
   const toggleShowSelected = () => {
     setShowSelectedOnly(!showSelectedOnly);
   };
+
   const filteredMonsters = showSelectedOnly
-    ? monsters.filter((monster) => checkedMonsters[monster.name])
+    ? monsters.filter(monster => checkedMonsters[monster.name])
     : monsters;
 
   return (
@@ -72,33 +73,15 @@ const MonsterDamageCalculator = () => {
           <div className="space-y-2">
             <div>
               <Label>Attack</Label>
-              <Input
-                type="number"
-                value={playerStats.physical.attack}
-                onChange={(e) =>
-                  handleStatChange("physical", "attack", e.target.value)
-                }
-              />
+              <Input type="number" value={playerStats.physical.attack} onChange={(e) => handleStatChange('physical', 'attack', e.target.value)} />
             </div>
             <div>
               <Label>Defense</Label>
-              <Input
-                type="number"
-                value={playerStats.physical.defense}
-                onChange={(e) =>
-                  handleStatChange("physical", "defense", e.target.value)
-                }
-              />
+              <Input type="number" value={playerStats.physical.defense} onChange={(e) => handleStatChange('physical', 'defense', e.target.value)} />
             </div>
             <div>
               <Label>Penetration</Label>
-              <Input
-                type="number"
-                value={playerStats.physical.penetration}
-                onChange={(e) =>
-                  handleStatChange("physical", "penetration", e.target.value)
-                }
-              />
+              <Input type="number" value={playerStats.physical.penetration} onChange={(e) => handleStatChange('physical', 'penetration', e.target.value)} />
             </div>
           </div>
         </div>
@@ -108,33 +91,15 @@ const MonsterDamageCalculator = () => {
           <div className="space-y-2">
             <div>
               <Label>Attack</Label>
-              <Input
-                type="number"
-                value={playerStats.elemental.attack}
-                onChange={(e) =>
-                  handleStatChange("elemental", "attack", e.target.value)
-                }
-              />
+              <Input type="number" value={playerStats.elemental.attack} onChange={(e) => handleStatChange('elemental', 'attack', e.target.value)} />
             </div>
             <div>
               <Label>Defense</Label>
-              <Input
-                type="number"
-                value={playerStats.elemental.defense}
-                onChange={(e) =>
-                  handleStatChange("elemental", "defense", e.target.value)
-                }
-              />
+              <Input type="number" value={playerStats.elemental.defense} onChange={(e) => handleStatChange('elemental', 'defense', e.target.value)} />
             </div>
             <div>
               <Label>Penetration</Label>
-              <Input
-                type="number"
-                value={playerStats.elemental.penetration}
-                onChange={(e) =>
-                  handleStatChange("elemental", "penetration", e.target.value)
-                }
-              />
+              <Input type="number" value={playerStats.elemental.penetration} onChange={(e) => handleStatChange('elemental', 'penetration', e.target.value)} />
             </div>
           </div>
         </div>
@@ -144,17 +109,7 @@ const MonsterDamageCalculator = () => {
           <div className="space-y-2">
             <div>
               <Label>Crystal Shield Skill Damage</Label>
-              <Input
-                type="number"
-                value={playerStats.skills.crystalShieldSkillDamage}
-                onChange={(e) =>
-                  handleStatChange(
-                    "skills",
-                    "crystalShieldSkillDamage",
-                    e.target.value
-                  )
-                }
-              />
+              <Input type="number" value={playerStats.skills.crystalShieldSkillDamage} onChange={(e) => handleStatChange('skills', 'crystalShieldSkillDamage', e.target.value)} />
             </div>
           </div>
         </div>
@@ -174,24 +129,18 @@ const MonsterDamageCalculator = () => {
               <TableHead className="border border-gray-300">Element</TableHead>
               <TableHead className="border border-gray-300">Damage</TableHead>
               <TableHead className="border border-gray-300">Reflect</TableHead>
-              <TableHead className="border border-gray-300">
-                Total Damage
-              </TableHead>
-              <TableHead className="border border-gray-300">
-                HP Remaining
-              </TableHead>
+              <TableHead className="border border-gray-300">Total Damage</TableHead>
+              <TableHead className="border border-gray-300">HP Remaining</TableHead>
               <TableHead className="border border-gray-300">Last Hit</TableHead>
-              <TableHead className="border border-gray-300">
-                Hits to Kill
-              </TableHead>
+              <TableHead className="border border-gray-300">Hits to Kill</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredMonsters.map((monster, index) => {
+            {filteredMonsters.map(monster => {
               const damageStats = calculateDamage(monster, playerStats);
               const colorClass = getHitsToKillColor(damageStats.hitsToKill);
               return (
-                <TableRow key={`${monster.name}-${index}`}>
+                <TableRow key={monster.name}>
                   <TableCell className="border border-gray-300">
                     <Checkbox
                       checked={checkedMonsters[monster.name] || false}
