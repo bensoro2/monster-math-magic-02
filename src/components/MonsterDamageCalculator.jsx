@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import CalculatorButtons from './CalculatorButtons';
 import { monsters } from '../data/monsterData';
 import { calculateDamage } from '../utils/damageCalculator';
@@ -30,6 +31,8 @@ const MonsterDamageCalculator = () => {
     crystalShieldSkillDamage: 4
   });
 
+  const [checkedMonsters, setCheckedMonsters] = useState({});
+
   const handleStatChange = (category, type, value) => {
     setPlayerStats(prevStats => ({
       ...prevStats,
@@ -37,6 +40,13 @@ const MonsterDamageCalculator = () => {
         ...prevStats[category],
         [type]: parseFloat(value) || 0
       }
+    }));
+  };
+
+  const handleMonsterCheck = (monsterName) => {
+    setCheckedMonsters(prev => ({
+      ...prev,
+      [monsterName]: !prev[monsterName]
     }));
   };
 
@@ -86,6 +96,7 @@ const MonsterDamageCalculator = () => {
       <Table className="border-collapse">
         <TableHeader>
           <TableRow>
+            <TableHead className="border border-gray-300">Select</TableHead>
             <TableHead className="border border-gray-300">Monster</TableHead>
             <TableHead className="border border-gray-300">Type</TableHead>
             <TableHead className="border border-gray-300">HP</TableHead>
@@ -105,6 +116,12 @@ const MonsterDamageCalculator = () => {
             const colorClass = getHitsToKillColor(damageStats.hitsToKill);
             return (
               <TableRow key={monster.name}>
+                <TableCell className="border border-gray-300">
+                  <Checkbox
+                    checked={checkedMonsters[monster.name] || false}
+                    onCheckedChange={() => handleMonsterCheck(monster.name)}
+                  />
+                </TableCell>
                 <TableCell className={`border border-gray-300 ${colorClass}`}>
                   {monster.name}
                 </TableCell>
