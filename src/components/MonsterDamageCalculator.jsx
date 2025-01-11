@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -16,22 +16,23 @@ import { calculateDamage } from '../utils/damageCalculator';
 
 const MonsterDamageCalculator = () => {
   const [playerStats, setPlayerStats] = useState({
-    physicalDamage: {
-      woodChopping: 3.52,
-      rockBreaking: 3.52,
-      mineralMining: 3.52,
-      smashing: 6.57
+    physical: {
+      attack: 0,
+      defense: 0,
+      penetration: 0
     },
-    elementDamage: {
-      fire: 0,
-      cold: 0,
-      lightning: 0,
-      chaos: 53.14
+    elemental: {
+      attack: 0,
+      defense: 0,
+      penetration: 0
     },
-    crystalShieldSkillDamage: 4
+    skills: {
+      crystalShieldSkillDamage: 4
+    }
   });
 
   const [checkedMonsters, setCheckedMonsters] = useState({});
+  const [showSelectedOnly, setShowSelectedOnly] = useState(false);
 
   const handleStatChange = (category, type, value) => {
     setPlayerStats(prevStats => ({
@@ -50,98 +51,141 @@ const MonsterDamageCalculator = () => {
     }));
   };
 
-  const getHitsToKillColor = (hitsToKill) => {
-    if (hitsToKill === 1) return 'text-green-500';
-    if (hitsToKill >= 2 && hitsToKill <= 5) return 'text-yellow-500';
+  const getHitsToKillColor = (hits) => {
+    if (hits === 1) return 'text-green-500';
+    if (hits >= 2 && hits <= 5) return 'text-yellow-500';
     return 'text-red-500';
   };
 
+  const toggleShowSelected = () => {
+    setShowSelectedOnly(!showSelectedOnly);
+  };
+
+  const filteredMonsters = showSelectedOnly
+    ? monsters.filter(monster => checkedMonsters[monster.name])
+    : monsters;
+
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Monster Damage Calculator</h2>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        {Object.entries(playerStats.physicalDamage).map(([key, value]) => (
-          <div key={key}>
-            <Label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)} Damage</Label>
-            <Input
-              id={key}
-              type="number"
-              value={value}
-              onChange={(e) => handleStatChange('physicalDamage', key, e.target.value)}
-            />
-          </div>
-        ))}
-        {Object.entries(playerStats.elementDamage).map(([key, value]) => (
-          <div key={key}>
-            <Label htmlFor={`${key}Damage`}>{key.charAt(0).toUpperCase() + key.slice(1)} Damage</Label>
-            <Input
-              id={`${key}Damage`}
-              type="number"
-              value={value}
-              onChange={(e) => handleStatChange('elementDamage', key, e.target.value)}
-            />
-          </div>
-        ))}
+    <div className="p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div>
-          <Label htmlFor="crystalShieldSkillDamage">Crystal Shield Skill Damage</Label>
-          <Input
-            id="crystalShieldSkillDamage"
-            type="number"
-            value={playerStats.crystalShieldSkillDamage}
-            onChange={(e) => setPlayerStats(prev => ({ ...prev, crystalShieldSkillDamage: parseFloat(e.target.value) || 0 }))}
-          />
+          <h3 className="font-bold mb-2">Physical Stats</h3>
+          <div className="space-y-2">
+            <div>
+              <Label>Attack</Label>
+              <Input type="number" value={playerStats.physical.attack} onChange={(e) => handleStatChange('physical', 'attack', e.target.value)} />
+            </div>
+            <div>
+              <Label>Defense</Label>
+              <Input type="number" value={playerStats.physical.defense} onChange={(e) => handleStatChange('physical', 'defense', e.target.value)} />
+            </div>
+            <div>
+              <Label>Penetration</Label>
+              <Input type="number" value={playerStats.physical.penetration} onChange={(e) => handleStatChange('physical', 'penetration', e.target.value)} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-bold mb-2">Elemental Stats</h3>
+          <div className="space-y-2">
+            <div>
+              <Label>Attack</Label>
+              <Input type="number" value={playerStats.elemental.attack} onChange={(e) => handleStatChange('elemental', 'attack', e.target.value)} />
+            </div>
+            <div>
+              <Label>Defense</Label>
+              <Input type="number" value={playerStats.elemental.defense} onChange={(e) => handleStatChange('elemental', 'defense', e.target.value)} />
+            </div>
+            <div>
+              <Label>Penetration</Label>
+              <Input type="number" value={playerStats.elemental.penetration} onChange={(e) => handleStatChange('elemental', 'penetration', e.target.value)} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-bold mb-2">Skills</h3>
+          <div className="space-y-2">
+            <div>
+              <Label>Crystal Shield Skill Damage</Label>
+              <Input type="number" value={playerStats.skills.crystalShieldSkillDamage} onChange={(e) => handleStatChange('skills', 'crystalShieldSkillDamage', e.target.value)} />
+            </div>
+          </div>
         </div>
       </div>
-      <CalculatorButtons />
-      <Table className="border-collapse">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="border border-gray-300">Select</TableHead>
-            <TableHead className="border border-gray-300">Monster</TableHead>
-            <TableHead className="border border-gray-300">Type</TableHead>
-            <TableHead className="border border-gray-300">HP</TableHead>
-            <TableHead className="border border-gray-300">Physical</TableHead>
-            <TableHead className="border border-gray-300">Element</TableHead>
-            <TableHead className="border border-gray-300">Damage</TableHead>
-            <TableHead className="border border-gray-300">Reflect</TableHead>
-            <TableHead className="border border-gray-300">Total Damage</TableHead>
-            <TableHead className="border border-gray-300">Hits to Kill</TableHead>
-            <TableHead className="border border-gray-300">HP Remaining</TableHead>
-            <TableHead className="border border-gray-300">Last Hit</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {monsters.map((monster) => {
-            const damageStats = calculateDamage(monster, playerStats);
-            const colorClass = getHitsToKillColor(damageStats.hitsToKill);
-            return (
-              <TableRow key={monster.name}>
-                <TableCell className="border border-gray-300">
-                  <Checkbox
-                    checked={checkedMonsters[monster.name] || false}
-                    onCheckedChange={() => handleMonsterCheck(monster.name)}
-                  />
-                </TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>
-                  {monster.name}
-                </TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{monster.type}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{monster.hp}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.physical}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.element}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.damage}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.reflect}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.totalDamage}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>
-                  {damageStats.hitsToKill}
-                </TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.hpRemaining}</TableCell>
-                <TableCell className={`border border-gray-300 ${colorClass}`}>{damageStats.lastHitDamage}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+
+      <CalculatorButtons onShowSelected={toggleShowSelected} />
+
+      <div className="overflow-x-auto">
+        <Table className="border-collapse">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="border border-gray-300">Select</TableHead>
+              <TableHead className="border border-gray-300">Monster</TableHead>
+              <TableHead className="border border-gray-300">Type</TableHead>
+              <TableHead className="border border-gray-300">HP</TableHead>
+              <TableHead className="border border-gray-300">Physical</TableHead>
+              <TableHead className="border border-gray-300">Element</TableHead>
+              <TableHead className="border border-gray-300">Damage</TableHead>
+              <TableHead className="border border-gray-300">Reflect</TableHead>
+              <TableHead className="border border-gray-300">Total Damage</TableHead>
+              <TableHead className="border border-gray-300">HP Remaining</TableHead>
+              <TableHead className="border border-gray-300">Last Hit</TableHead>
+              <TableHead className="border border-gray-300">Hits to Kill</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredMonsters.map(monster => {
+              const damageStats = calculateDamage(monster, playerStats);
+              const colorClass = getHitsToKillColor(damageStats.hitsToKill);
+              return (
+                <TableRow key={monster.name}>
+                  <TableCell className="border border-gray-300">
+                    <Checkbox
+                      checked={checkedMonsters[monster.name] || false}
+                      onCheckedChange={() => handleMonsterCheck(monster.name)}
+                    />
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {monster.name}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {monster.type}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {monster.hp}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {monster.physical}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {monster.element}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {damageStats.damage}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {damageStats.reflect}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {damageStats.totalDamage}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {damageStats.hpRemaining}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {damageStats.lastHit}
+                  </TableCell>
+                  <TableCell className={`border border-gray-300 ${colorClass}`}>
+                    {damageStats.hitsToKill}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };
